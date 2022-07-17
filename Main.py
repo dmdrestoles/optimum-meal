@@ -1,36 +1,88 @@
 from Graph import *
 from Food import *
 
-east_asian_dishes.shuffle()
+EA_DISHES = load_dishes(east_asian_dishes)
+FIL_DISHES = load_dishes(filipino_dishes)
+FR_DISHES = load_dishes(french_dishes)
 
-start_vertex = Vertex("START", False)
-vertices = [ [start_vertex] ]
-# List down nodes
-for cuisine, dishes in east_asian_dishes.food_list.items():
-	dish_group = []
-	for dish in dishes:
-		dish_group.append(Vertex(dish, False))
-	vertices.append(dish_group)
+def prepare_cuisine(dishes: Graph):
+	print("=== AUTOMATED MEAL PREPARATION SELECTION ===")
+	print("Type the number you want your %s meal to be selected." % (dishes.name))
+	print("[1] Random selection (DFS)")
+	print("[2] Cheapest set (A*)")
+	print("[3] Go back")
+	response = int(input(">> "))
+
+	if response == 1:
+		dishes.DFS(START_VERTEX, 5)
+		pass
+	
+	elif response == 2:
+		dishes.A_STAR(START_VERTEX, GOAL_VERTEX, dishes.heuristic)
+		pass
+
+	elif response == 3:
+		order_meal()
+		pass
+	
+	else:
+		print("Invalid input detected. Repeating the interface.")
+
+def list_menu():
 	pass
 
-vertices.append( [Vertex("GOAL", True)] )
-#print(vertices)
-# Declare graph edges
-graph = Graph()
-previous_group = []
-for dish_group in vertices:
-	new_group = dish_group
-	#print("New group: %s" % (str(new_group)))
+def order_meal():
+	while True:
+		print("============ ORDERING INTERFACE ============")
+		print("Type the number of the meal you want to order")
+		print("[1] East Asian Cuisine")
+		print("[2] Filipino Cuisine")
+		print("[3] French Cuisine")
+		print("[4] Go back")
+		response = int(input(">> "))
+
+		if response == 1:
+			prepare_cuisine(EA_DISHES)
+			break
+		
+		elif response == 2:
+			prepare_cuisine(FIL_DISHES)
+			break
+
+		elif response == 3:
+			prepare_cuisine(FR_DISHES)
+			break
+
+		elif response == 4:
+			main_menu()
+			break
+
+		else:
+			print("Invalid input detected. Repeating the interface.")
+
+def main_menu():
+	while True:
+		print("== WELCOME TO GRAB GLOBAL ORDER INTERFACE ==")
+		print("Type the number you want to proceed towards")
+		print("[1] Order meal")
+		print("[2] List down menu")
+		print("[3] Quit application")
+		response = int(input(">> "))
+
+		if response == 3:
+			break
+		
+		elif response == 2:
+			list_menu()
+			break
+
+		elif response == 1:
+			order_meal()
+			break
+		
+		else:
+			print("Invalid input detected. Repeating the interface.")
 	
-	if previous_group:
-		paired_edges = [(x,y) for x in previous_group for y in new_group]
+	print("Thank you for using the Grab Global Order Interface!")
 
-		for i in paired_edges:
-			graph.add_edge(i[0], i[1])
-
-		#print(paired_edges)
-	previous_group = new_group
-
-# print(graph)
-
-graph.DFS(start_vertex, 5)
+main_menu()
