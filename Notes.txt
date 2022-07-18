@@ -1,2 +1,7 @@
 Nodes are any data types or objects that can are represented as vertices in a graph
 An edge is a property of the GRAPH, not the vertex itself
+
+SOURCES:
+www.simplilearn.com/tutorials/artificial-intelligence-tutorial/a-star-algorithm
+https://www.geeksforgeeks.org/a-search-algorithm/
+https://www.pythonpool.com/a-star-algorithm-python/

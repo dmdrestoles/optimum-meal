@@ -38,7 +38,7 @@ class Cuisine:
 		}
 
 	def __str__(self):
-		return self.name
+		return str(self.food_list)
 
 	def __repr__(self):
 		return self.name
