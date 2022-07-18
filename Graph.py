@@ -73,17 +73,24 @@ class Graph:
 		"""
 		cost = 0
 		stack = []
+		created_meal = []
 
 		stack.append(starting_vertex)
 
+		print("=== MEAL SELECTION VIA DFS STARTING ===")
 		while stack:
 			starting_vertex = stack[-1]
 			stack.pop()
 			if type(starting_vertex.data) == Food:
+				created_meal.append(starting_vertex)
 				cost += starting_vertex.data.get_cost() 
-				print("Selecting %s: %s (%d)" % (starting_vertex.data.get_type(), starting_vertex.data.get_name(), starting_vertex.data.get_cost()))
+				print("Popped %s to meal set. Proceeding to selection of next meal." % (str(vertex.data)))
 
 			if (starting_vertex.goal):
+				print("Meal set created. Detailing meal list...")
+
+				for vertex in created_meal:
+					print("Selected %s: %s (%d)" % (vertex.data.get_type(), vertex.data.get_name(), vertex.data.get_cost()))
 				print("Meal selection done!")
 				print("Total cost: %d" % (cost))
 				break
@@ -94,6 +101,9 @@ class Graph:
 			for vertex in self.graph[starting_vertex]:
 				if not vertex.has_visited():
 					stack.append(vertex)
+
+					if isinstance(vertex.data, Food):
+						print("Pushing food: %s" % (str(vertex)))
 
 	def A_STAR(self, start: Vertex, stop: Vertex, heuristic):
 		"""
@@ -115,14 +125,19 @@ class Graph:
         # adjacencies contains an adjac mapping of all nodes
 		adjacencies = {}
 		adjacencies[start] = start
- 
+		
+		print("=== MEAL SELECTION VIA A* STARTING ===")
 		while len(open_lst) > 0:
 			n = None
  
             # it will find a node with the lowest value of f() -
 			for v in open_lst:
+				if isinstance(v.data, Food):
+					print("Visting vertex: %s" % (str(v)))
 				if n == None or distances[v] + self.h(v) < distances[n] + self.h(n):
 					n = v
+					if isinstance(v.data, Food):
+						print("New minimum cost vertex selected: %s" % (str(v)))
 				
 				if n == None:
 					print('Path does not exist! No content for n!')
@@ -131,20 +146,19 @@ class Graph:
             # if the current node is the stop
             # then we start again from start
 			if n == stop:
+				print("Optimal meal set found. Detailing meal list...")
 				created_path = []
 
 				while adjacencies[n] != n:
 					created_path.append(n)
 					n = adjacencies[n]
 
-				created_path.append(start)
-
 				created_path.reverse()
 
-				created_meal = created_path[1:4]
+				created_meal = created_path[:3]
 
 				for food in created_meal:
-					print("Selecting %s: %s (%d)" % (food.data.get_type(), food.data.get_name(), food.data.get_cost()))
+					print("Selected %s: %s (%d)" % (food.data.get_type(), food.data.get_name(), food.data.get_cost()))
 					cost += food.data.get_cost()
 
 				
@@ -158,6 +172,8 @@ class Graph:
 			# add it to open_lst and note n as it's adjacencies
 				if vertex not in open_lst and vertex not in closed_lst:
 					open_lst.add(vertex)
+					if isinstance(vertex.data, Food):
+						print("Adding vertex to visit: %s" % (str(vertex.data)))
 					adjacencies[vertex] = n
 					if isinstance(vertex.data, Food):
 						distances[vertex] = distances[n] + vertex.data.get_cost()
@@ -172,14 +188,18 @@ class Graph:
 						distances[vertex] = distances[n] + vertex.data.get_cost()
 						adjacencies[vertex] = n
 
+						print("Existing adjacencies: %s" % (str(adjacencies[vertex])))
 						if vertex in closed_lst:
 							closed_lst.remove(vertex)
 							open_lst.add(vertex)
+							print("Removed vertex %s from selection." % (str(vertex.data)))
 
 			# remove n from the open_lst, and add it to closed_lst
 			# because all of his neighbors were inspected
 			open_lst.remove(n)
 			closed_lst.add(n)
+			if isinstance(n.data, Food):
+				print("Vertex visited: %s" % (str(n.data)))
 
 		print('Cannot create meal! We apologize for this error.')
 		return None
