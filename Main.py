@@ -26,7 +26,13 @@ def prepare_cuisine(dishes: Graph):
 		print("Invalid input detected. Repeating the interface.")
 		prepare_cuisine()
 	
-	print("Thank you for using the Grab Global Order Interface!")
+	response = input("Do you want to order more? [Y/N]: ")
+
+	if response == "Y":
+		main_menu()
+	else:
+		print("Thank you for using the Grab Global Order Interface!")
+
 
 def list_menu():
 	print("============ FOOD ITEM INTERFACE ============")

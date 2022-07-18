@@ -68,6 +68,10 @@ class Graph:
 		self.graph[node].append(other)
 
 	def DFS(self, starting_vertex: Vertex, depth_limit: int):
+		"""
+		Source code based on: https://www.geeksforgeeks.org/iterative-depth-first-traversal/
+		"""
+		cost = 0
 		stack = []
 
 		stack.append(starting_vertex)
@@ -76,12 +80,12 @@ class Graph:
 			starting_vertex = stack[-1]
 			stack.pop()
 			if type(starting_vertex.data) == Food:
-				self.cost += starting_vertex.data.get_cost() 
+				cost += starting_vertex.data.get_cost() 
 				print("Selecting %s: %s (%d)" % (starting_vertex.data.get_type(), starting_vertex.data.get_name(), starting_vertex.data.get_cost()))
 
 			if (starting_vertex.goal):
 				print("Meal selection done!")
-				print("Total cost: %d" % (self.cost))
+				print("Total cost: %d" % (cost))
 				break
 
 			if not starting_vertex.has_visited():
@@ -92,6 +96,10 @@ class Graph:
 					stack.append(vertex)
 
 	def A_STAR(self, start: Vertex, stop: Vertex, heuristic):
+		"""
+		Source code based on: https://www.pythonpool.com/a-star-algorithm-python/
+		"""
+		cost = 0
 		# In this open_lst is a list of nodes which have been visited, but who's 
         # neighbours haven't all been always inspected, It starts off with the start node
         # And closed_lst is a list of nodes which have been visited
@@ -137,9 +145,11 @@ class Graph:
 
 				for food in created_meal:
 					print("Selecting %s: %s (%d)" % (food.data.get_type(), food.data.get_name(), food.data.get_cost()))
+					cost += food.data.get_cost()
+
 				
 				print("Meal selection done!")
-				print("Total cost: %d" % (distances[v]))
+				print("Total cost: %d" % (cost))
 				return created_path
  
             # for all the neighbors of the current node do
