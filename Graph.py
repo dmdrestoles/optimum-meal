@@ -87,12 +87,15 @@ class Graph:
 				print("Popped %s to meal set. Proceeding to selection of next meal." % (str(vertex.data)))
 
 			if (starting_vertex.goal):
+				print("========================================")
 				print("Meal set created. Detailing meal list...")
+				print("========================================")
 
 				for vertex in created_meal:
-					print("Selected %s: %s (%d)" % (vertex.data.get_type(), vertex.data.get_name(), vertex.data.get_cost()))
+					print("Selected %s: %s" % (vertex.data.get_type(), str(vertex.data)))
 				print("Meal selection done!")
 				print("Total cost: %d" % (cost))
+				print("========================================")
 				break
 
 			if not starting_vertex.has_visited():
@@ -146,7 +149,9 @@ class Graph:
             # if the current node is the stop
             # then we start again from start
 			if n == stop:
+				print("==============================================")
 				print("Optimal meal set found. Detailing meal list...")
+				print("==============================================")
 				created_path = []
 
 				while adjacencies[n] != n:
@@ -158,12 +163,13 @@ class Graph:
 				created_meal = created_path[:3]
 
 				for food in created_meal:
-					print("Selected %s: %s (%d)" % (food.data.get_type(), food.data.get_name(), food.data.get_cost()))
+					print("Selected %s: %s" % (food.data.get_type(), str(food.data)))
 					cost += food.data.get_cost()
 
 				
 				print("Meal selection done!")
 				print("Total cost: %d" % (cost))
+				print("==============================================")
 				return created_path
  
             # for all the neighbors of the current node do
