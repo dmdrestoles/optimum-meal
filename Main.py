@@ -15,9 +15,11 @@ def prepare_cuisine(dishes: Graph):
 
 	if response == 1:
 		dishes.DFS(START_VERTEX, 5)
+		response = input("Do you want to wish for more? [Y/N]: ")
 	
 	elif response == 2:
 		dishes.A_STAR(START_VERTEX, GOAL_VERTEX, dishes.heuristic)
+		response = input("Do you want to wish for more? [Y/N]: ")
 
 	elif response == 3:
 		order_meal()
@@ -26,12 +28,11 @@ def prepare_cuisine(dishes: Graph):
 		print("Invalid input detected. Repeating the interface.")
 		prepare_cuisine()
 	
-	response = input("Do you want to order more? [Y/N]: ")
 
 	if response == "Y":
 		main_menu()
 	else:
-		print("Thank you for using the Grab Global Order Interface!")
+		print("I am glad to be in your service.")
 
 
 def list_menu():
@@ -92,7 +93,7 @@ def order_meal():
 		order_meal()
 
 def main_menu():
-	print("== WELCOME TO GRAB GLOBAL ORDER INTERFACE ==")
+	print("== HELLO ALADDIN, YOUR WISH IS MY COMMAND ==")
 	print("Type the number you want to proceed towards")
 	print("[1] Order meal")
 	print("[2] List down menu")
@@ -100,7 +101,7 @@ def main_menu():
 	response = int(input(">> "))
 
 	if response == 5:	
-		print("Thank you for using the Grab Global Order Interface!")
+		print("I am glad to be in your service.")
 	
 	elif response == 2:
 		list_menu()
@@ -109,7 +110,7 @@ def main_menu():
 		order_meal()
 		
 	else:
-		print("Invalid input detected. Repeating the interface.")
+		print("Invalid input detected. Repeating the instructions.")
 		main_menu()
 	
 
